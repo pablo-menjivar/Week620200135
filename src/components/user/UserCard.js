@@ -1,11 +1,28 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
  
-const CardUser = ({ user }) => {
+const CardUser = ({ user, onEdit, onDelete }) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.cardTitle}>{user.nombre}</Text>
-      <Text style={styles.cardText}>Edad: {user.edad}</Text>
-      <Text style={styles.cardText}>Correo: {user.correo}</Text>
+      <View style={styles.cardContent}>
+        <Text style={styles.cardTitle}>{user.nombre}</Text>
+        <Text style={styles.cardText}>Edad: {user.edad}</Text>
+        <Text style={styles.cardText}>Correo: {user.correo}</Text>
+      </View>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity 
+          style={[styles.actionButton, styles.editButton]} 
+          onPress={() => onEdit(user)}
+        >
+          <Ionicons name="pencil" size={16} color="#FFF" />
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.actionButton, styles.deleteButton]} 
+          onPress={() => onDelete(user.id)}
+        >
+          <Ionicons name="trash" size={16} color="#FFF" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -50,6 +67,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowOffset: { width: 1, height: 2 },
     shadowRadius: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  cardContent: {
+    flex: 1,
   },
   cardTitle: {
     fontSize: 20,
@@ -60,6 +83,23 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 16,
     color: "#3B2C24",
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  actionButton: {
+    padding: 8,
+    borderRadius: 6,
+    minWidth: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  editButton: {
+    backgroundColor: "#007910ff",
+  },
+  deleteButton: {
+    backgroundColor: "#dc3545",
   },
 });
 export default CardUser;

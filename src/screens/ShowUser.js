@@ -6,7 +6,7 @@ import useFetchUser from "../hooks/useFetchUser";
 import { useFocusEffect } from "@react-navigation/native";
  
 const ShowUser = () => {
-  const { usuarios, loading, fetchUsuarios } = useFetchUser();
+  const { usuarios, loading, fetchUsuarios, handleEliminar, mostrarAlertEdicion } = useFetchUser();
   // Se ejecuta cada vez que esta pantalla se enfoca
   useFocusEffect(
     useCallback(() => {
@@ -34,7 +34,13 @@ const ShowUser = () => {
         <FlatList
           data={usuarios}
           keyExtractor={(user) => user.id.toString()}
-          renderItem={({ item }) => <CardUser user={item} />}
+          renderItem={({ item }) => (
+            <CardUser 
+              user={item} 
+              onEdit={mostrarAlertEdicion}
+              onDelete={handleEliminar}
+            />
+          )}
           contentContainerStyle={styles.listContainer}
         />
       )}
