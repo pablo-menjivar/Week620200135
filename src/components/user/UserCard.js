@@ -1,31 +1,37 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
- 
-const CardUser = ({ user, onEdit, onDelete }) => {
+import { StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import Buttons from "../Button";
+import useFetchUser from "../../hooks/useFetchUser";
+// Componente para mostrar la tarjeta de usuario
+// Este componente recibe un objeto `user` como prop y muestra sus detalles
+const CardUser = ({ user, onEliminar }) => {
+  const navigation = useNavigation();
+  // Función para navegar a la pantalla de edición
+  const handleEdit = () => {
+    navigation.navigate("EditUser", { user, onRefreshList });
+  };
+  // Función para eliminar usuario usando el hook
+  const handleDelete = () => {
+    onEliminar(user.id, user.nombre);
+  };
   return (
     <View style={styles.card}>
-      <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{user.nombre}</Text>
-        <Text style={styles.cardText}>Edad: {user.edad}</Text>
-        <Text style={styles.cardText}>Correo: {user.correo}</Text>
-      </View>
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity 
-          style={[styles.actionButton, styles.editButton]} 
-          onPress={() => onEdit(user)}
-        >
-          <Ionicons name="pencil" size={16} color="#FFF" />
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={[styles.actionButton, styles.deleteButton]} 
-          onPress={() => onDelete(user.id)}
-        >
-          <Ionicons name="trash" size={16} color="#FFF" />
-        </TouchableOpacity>
+      <Text style={styles.cardTitle}>{user.nombre}</Text>
+      <Text style={styles.cardText}>Edad: {user.edad}</Text>
+      <Text style={styles.cardText}>Correo: {user.correo}</Text>
+      {/* Contenedor para los botones */}
+      <View style={styles.buttonContainer}>
+        <View style={styles.buttonWrapper}>
+          <Buttons text="Editar" action={handleEdit} />
+        </View>
+        <View style={styles.buttonWrapper}>
+          <Buttons text="Eliminar" action={handleDelete} />
+        </View>
       </View>
     </View>
   );
 };
+// Estilos para el componente CardUser
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -67,12 +73,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowOffset: { width: 1, height: 2 },
     shadowRadius: 4,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  cardContent: {
-    flex: 1,
   },
   cardTitle: {
     fontSize: 20,
@@ -83,23 +83,17 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 16,
     color: "#3B2C24",
+    marginBottom: 3,
   },
-  buttonsContainer: {
-    flexDirection: 'row',
-    gap: 10,
+  // Nuevos estilos para los botones
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 15,
   },
-  actionButton: {
-    padding: 8,
-    borderRadius: 6,
-    minWidth: 35,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  editButton: {
-    backgroundColor: "#007910ff",
-  },
-  deleteButton: {
-    backgroundColor: "#dc3545",
+  buttonWrapper: {
+    flex: 1,
+    marginHorizontal: 5,
   },
 });
 export default CardUser;

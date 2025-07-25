@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 import { StyleSheet, Text, FlatList, ActivityIndicator, SafeAreaView } from "react-native";
-// componente de la card
-import CardUser from "../components/user/UserCard";
-import useFetchUser from "../hooks/useFetchUser";
+// Componente de la card
+import CardUser from "../components/user/UserCard.js"; // Importa el componente de tarjeta de usuario
+import useFetchUser from "../hooks/useFetchUser"; // Importa el hook personalizado para manejar usuarios
 import { useFocusEffect } from "@react-navigation/native";
  
 const ShowUser = () => {
-  const { usuarios, loading, fetchUsuarios, handleEliminar, mostrarAlertEdicion } = useFetchUser();
+  const { usuarios, loading, fetchUsuarios, handleEliminar } = useFetchUser();
   // Se ejecuta cada vez que esta pantalla se enfoca
   useFocusEffect(
     useCallback(() => {
@@ -25,24 +25,13 @@ const ShowUser = () => {
         </Text>
       )}
       {loading ? (
-        <ActivityIndicator
-          size="large"
-          color="#5C3D2E"
-          style={{ marginTop: 20 }}
-        />
+        <ActivityIndicator size="large" color="#5C3D2E" style={{ marginTop: 20 }}/>
       ) : (
-        <FlatList
-          data={usuarios}
-          keyExtractor={(user) => user.id.toString()}
+        <FlatList data={usuarios} keyExtractor={(user) => user.id.toString()}
           renderItem={({ item }) => (
-            <CardUser 
-              user={item} 
-              onEdit={mostrarAlertEdicion}
-              onDelete={handleEliminar}
-            />
+            <CardUser user={item} onEliminar={handleEliminar}/>
           )}
-          contentContainerStyle={styles.listContainer}
-        />
+          contentContainerStyle={styles.listContainer}/>
       )}
     </SafeAreaView>
   );

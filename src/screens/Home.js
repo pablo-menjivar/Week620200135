@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Alert, Image } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import Buttons from "../components/Button";
  
 export default function Home({ navigation }) {
@@ -14,8 +14,7 @@ export default function Home({ navigation }) {
         Esta aplicación nos servirá para comprender como utilizar la navegación
         y un tab menu en una aplicación móvil de react native
       </Text>
- 
-      <Buttons text="ver todos los usuarios" action={irShowUsers} />
+      <Buttons text="Ver todos los usuarios" action={irShowUsers} />
     </View>
   );
 }
